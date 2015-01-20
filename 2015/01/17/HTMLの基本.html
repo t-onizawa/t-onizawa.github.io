@@ -1,0 +1,301 @@
+<!doctype html> 
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta content="IE=edge;chrome=1" http-equiv="X-UA-Compatible" />
+    <title>Front on Rails | HTMLの基本</title>
+    <meta content="<p>HTMLの基本を説明していきます。構成、タグの種類など。HTML5を基本と...</p>" name="description" />
+    <meta content="Frontend, フロントエンド, Rails, Ruby, Ruby on Rails" name="keywords" />
+    <meta content="width=device-width,user-scalable=no,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0" name="viewport" />
+    <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" /><!--[if lt IE 9]><script src="../../../js/ie8.js" type="text/javascript"></script><![endif]--><link href="../../../css/all.css" media="screen" rel="stylesheet" type="text/css" /><link href="http://fonts.googleapis.com/css?family=Righteous" media="screen" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand org-logo" href="/">Front on Rails<span>FrontendとRailsのメモ</span></a>
+        </div>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-9 col-md-9">
+          <h1>
+            HTMLの基本
+          </h1>
+          <small class="label label-default">HTML</small>
+          <small class="label label-default">基本</small>
+          <small class="label label-default">タグ</small>
+          <hr />
+          <p>
+            <span class="glyphicon glyphicon-time"></span> 投稿日2015/01/17
+          </p>
+          <hr /><p>HTMLの基本を説明していきます。構成、タグの種類など。HTML5を基本として明記します。</p>
+
+<h1 id="htmlの基本">HTMLの基本</h1>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;ja&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Document&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<ul>
+<li>DOCTYPEは宣言</li>
+<li><code>&lt;html&gt;&lt;/html&gt;</code>で囲む</li>
+<li><code>&lt;head&gt;&lt;/head&gt;</code>はページ上に表示させない情報</li>
+<li><code>&lt;head&gt;&lt;/head&gt;</code>には最低meta charset=&quot;UTF-8&quot;, titleを書く</li>
+<li><code>&lt;body&gt;&lt;/body&gt;</code>の中にページ上に表示させる情報を書く</li>
+</ul>
+
+<h1 id="タグ">タグ</h1>
+
+<pre><code>&lt;p&gt;あいうえお&lt;/p&gt;
+</code></pre>
+
+<ul>
+<li>情報、文字はタグで囲う</li>
+</ul>
+
+<h1 id="タグの種類">タグの種類</h1>
+
+<h3 id="html">html</h3>
+
+<pre><code>&lt;html&gt;&lt;/html&gt;
+</code></pre>
+
+<ul>
+<li>すべてを囲う</li>
+</ul>
+
+<hr>
+
+<h3 id="head">head</h3>
+
+<pre><code>&lt;head&gt;&lt;/head&gt;
+</code></pre>
+
+<ul>
+<li>情報</li>
+</ul>
+
+<hr>
+
+<h3 id="body">body</h3>
+
+<pre><code>&lt;body&gt;&lt;/body&gt;
+</code></pre>
+
+<ul>
+<li>ページ上に表示させる部分</li>
+</ul>
+
+<hr>
+
+<h3 id="h1">h1</h3>
+
+<pre><code>&lt;h1&gt;見出し&lt;/h1&gt;
+</code></pre>
+
+<ul>
+<li>見出しを囲う</li>
+<li>h1〜h6まである</li>
+</ul>
+
+<hr>
+
+<h3 id="p">p</h3>
+
+<pre><code>&lt;p&gt;段落&lt;/p&gt;
+</code></pre>
+
+<ul>
+<li>段落</li>
+</ul>
+
+<hr>
+
+<h3 id="ul-&gt;-li">ul &gt; li</h3>
+
+<pre><code>&lt;ul&gt;
+    &lt;li&gt;リスト&lt;/li&gt;
+    &lt;li&gt;リスト&lt;/li&gt;
+    &lt;li&gt;リスト&lt;/li&gt;
+&lt;/ul&gt;
+</code></pre>
+
+<ul>
+<li>リスト</li>
+</ul>
+
+<hr>
+
+<h3 id="dl-&gt;-dt,-dd">dl &gt; dt, dd</h3>
+
+<pre><code>&lt;dl&gt;
+    &lt;dt&gt;定義されたもの&lt;/dt&gt;
+    &lt;dd&gt;定義されたものの詳細・内容&lt;/dd&gt;
+    &lt;dd&gt;定義されたものの詳細・内容&lt;/dd&gt;
+    &lt;dd&gt;定義されたものの詳細・内容&lt;/dd&gt;
+&lt;/dl&gt;
+</code></pre>
+
+<ul>
+<li>定義リスト</li>
+</ul>
+
+<hr>
+
+<h3 id="a">a</h3>
+
+<pre><code>&lt;a href=&quot;http://codershigh.org&quot;&gt;codershighのサイトを見る&lt;/a&gt;
+</code></pre>
+
+<ul>
+<li>リンク</li>
+<li>囲まれた要素をクリックするとhrefに挿入されているURLに移動する</li>
+</ul>
+
+<hr>
+
+<h3 id="section">section</h3>
+
+<pre><code>&lt;section&gt;
+    &lt;h1&gt;見出し&lt;/h1&gt;
+    &lt;p&gt;説明&lt;/p&gt;
+&lt;/section&gt;
+</code></pre>
+
+<ul>
+<li>見出し &gt; 説明などの構文を囲う</li>
+<li>hタグ（見出し）と内容（pタグに限らない）が必要</li>
+</ul>
+
+<hr>
+
+<h3 id="main">main</h3>
+
+<pre><code>&lt;main&gt;
+    &lt;section&gt;
+        &lt;h1&gt;見出し&lt;/h1&gt;
+        &lt;p&gt;説明&lt;/p&gt;
+        &lt;section&gt;
+            &lt;h2&gt;見出し&lt;/h2&gt;
+            &lt;p&gt;説明&lt;/p&gt;
+        &lt;/section&gt;
+    &lt;/section&gt;
+&lt;/main&gt;
+</code></pre>
+
+<ul>
+<li>メインコンテンツを囲う</li>
+</ul>
+
+<hr>
+
+<h3 id="div">div</h3>
+
+<pre><code>&lt;div&gt;
+    &lt;p&gt;説明&lt;/p&gt;
+    &lt;p&gt;説明&lt;/p&gt;
+    &lt;p&gt;説明&lt;/p&gt;
+&lt;/div&gt;
+</code></pre>
+
+<ul>
+<li>見出し &gt; 説明などの構文にならないとき、ブロックを作るために使う</li>
+</ul>
+
+<hr>
+
+<h3 id="small">small</h3>
+
+<pre><code>&lt;small&gt;Copyright (C) 2015 ○○○○ All Rights Reserved. &lt;/small&gt;
+</code></pre>
+
+<ul>
+<li>コピーライトなどを囲う</li>
+</ul>
+
+<hr>
+
+<h3 id="img">img</h3>
+
+<pre><code>&lt;img src=&quot;/img/example.jpg&quot; alt=&quot;海&quot;&gt;
+</code></pre>
+
+<ul>
+<li>画像の挿入</li>
+<li><code>src=&quot;画像のパス&quot;</code></li>
+<li><code>alt=&quot;画像の代替テキスト&quot;</code></li>
+</ul>
+
+<hr>
+
+        </div>
+        <div class="col-lg-3 col-md-3 org-reset">
+          <ul class="org-sns">
+            <li>
+              <a href="https://github.com/t-onizawa"><i class="fa fa-github-square fa-lg fa-inverse"></i></a>
+            </li>
+            <li>
+              <a href="https://www.facebook.com/tetsuya.onizawa"><i class="fa fa-facebook-square fa-lg fa-inverse"></i></a>
+            </li>
+            <li>
+              <a href="https://twitter.com/t_onizawa"><i class="fa fa-twitter-square fa-lg fa-inverse"></i></a>
+            </li>
+          </ul>
+          <div class="org-well">
+            <h4>
+              Tags
+            </h4>
+            <ul class="list-unstyled">
+              <li>
+                <a href="/tags/html.html">HTML</a> (1)
+              </li>
+              <li>
+                <a href="/tags/基本.html">基本</a> (1)
+              </li>
+              <li>
+                <a href="/tags/タグ.html">タグ</a> (1)
+              </li>
+            </ul>
+          </div>
+          <div class="org-well">
+            <h4>
+              Date
+            </h4>
+            <ol class="org-year">
+              <li>
+                <a href="/2015.html">2015年</a> (1)
+                <ol class="org-month">
+                  <li>
+                    <a href="/2015/01.html">1月</a> (1)
+                  </li>
+                </ol>
+              </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer class="org-footer org-reset">
+      <div class="container">
+        <ul>
+          <li>
+            <a href="http://alifefilm.com">A LIFE FILM</a>
+          </li>
+        </ul>
+        <p class="org-copyright">
+          <small>Copyright © t-onizawa All Rights Reserved.</small>
+        </p>
+      </div>
+    </footer><script src="../../../js/all.js" type="text/javascript"></script>
+  </body>
+</html>
