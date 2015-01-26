@@ -1,0 +1,279 @@
+<!doctype html> 
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta content="IE=edge;chrome=1" http-equiv="X-UA-Compatible" />
+    <title>Front on Rails | Apache Passenger</title>
+    <meta content="<p>Railsの動作確認・Webサーバの設定について説明していきます。各設定を...</p>" name="description" />
+    <meta content="Frontend, フロントエンド, Rails, Ruby, Ruby on Rails" name="keywords" />
+    <meta content="width=device-width,user-scalable=no,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0" name="viewport" />
+    <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" /><!--[if lt IE 9]><script src="../../../js/ie8.js" type="text/javascript"></script><![endif]--><link href="../../../css/all.css" media="screen" rel="stylesheet" type="text/css" /><link href="http://fonts.googleapis.com/css?family=Righteous" media="screen" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand org-logo" href="/">Front on Rails<span>FrontendとRailsのメモ</span></a>
+        </div>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-9 col-md-9">
+          <h1>
+            Apache Passenger
+          </h1>
+          <small class="label label-default">VPS</small>
+          <small class="label label-default">基本</small>
+          <small class="label label-default">Ruby on Rails</small>
+          <small class="label label-default">環境構築</small>
+          <small class="label label-default">CentOS</small>
+          <small class="label label-default">Ruby</small>
+          <small class="label label-default">Apache</small>
+          <hr />
+          <p>
+            <span class="glyphicon glyphicon-time"></span> 投稿日2015/01/26
+          </p>
+          <hr /><p>Railsの動作確認・Webサーバの設定について説明していきます。各設定をを行います。環境構築を何回かに分けて明記しています。OSはCentOSです。</p>
+
+<h1 id="railsアプリケーションの動作確認">Railsアプリケーションの動作確認</h1>
+
+<pre><code>rake secret
+</code></pre>
+
+<p>で作成した文字列をコピーします。</p>
+
+<p>secret.ymlを開きます。
+<code>
+vi home/appname/rails_root/config/secret.yml
+</code>
+以下の部分に文字列を挿入します。
+<code>
+production:
+  secret_key_base: &quot;ここに挿入&quot;
+</code>
+- home/appname/rails_root/config/secret.ymlは.gitignoreに追記しましょう。</p>
+
+<ul>
+<li>apacheをrestartします。</li>
+<li>Webブラウザから設定したドメインにアクセスします。
+※ ドメインをお名前.comなどで取得した場合などはそちらにも設定が必要となります。</li>
+<li>表示されればOKです。</li>
+</ul>
+
+<h1 id="キャッシュ制御">キャッシュ制御</h1>
+
+<p>エディタで/etc/httpd/sites-available/appnameを開きます。
+<code>
+sudo vi /etc/httpd/sites-available/appname
+</code>
+- appnameは適宜変更してください。</p>
+
+<p></VirtualHost>の直前に以下を追記します。
+<code>
+&lt;Directory &quot;/home/appname/rails_root/public/assets/&quot;&gt;
+  ExpiresActive On
+  ExpiresDefault &quot;access plus 1 year&quot;
+  Header set Cache-Control &quot;public&quot;
+  Header unset ETag
+  FileETag None
+&lt;/Directory&gt;
+</code>
+- appnameは適宜変更してください。</p>
+
+<h1 id="gzipによる圧縮">Gzipによる圧縮</h1>
+
+<p>エディタで/etc/httpd/sites-available/appnameを開きます。
+<code>
+sudo vi /etc/httpd/sites-available/appname
+</code>
+- appnameは適宜変更してください。</p>
+
+<p>下記の内容をFileETag Noneの直後(</Directory>の直前)に挿入して下さい。
+```
+AddEncoding x-gzip .gz
+Header set Vary Accept-Encoding</p>
+
+<p>RewriteEngine on
+RewriteCond %{HTTP:Accept-Encoding} \b(x-)?gzip\b
+RewriteCond %{REQUEST_FILENAME}.gz -f
+RewriteRule ^(.*)$ $1.gz [L]</p>
+
+<p><FilesMatch \.css\.gz$>
+  ForceType text/css
+</FilesMatch></p>
+
+<p><FilesMatch \.js\.gz$>
+  ForceType text/javascript
+</FilesMatch>
+```</p>
+
+<h1 id="エラーページの指定">エラーページの指定</h1>
+
+<p>エディタで/etc/httpd/sites-availale/appnameを開きます。
+<code>
+sudo vi /etc/httpd/sites-available/appname
+</code>
+- appnameは適宜変更してください。</p>
+
+<p>次の内容をRackEnvの直後に挿入してください。
+<code>
+ErrorDocument 404 /404.html
+ErrorDocument 500 /500.html
+ErrorDocument 502 /500.html
+ErrorDocument 503 /500.html
+ErrorDocument 500 /500.html
+</code></p>
+
+<h1 id="ログファイルのパスと出力形式">ログファイルのパスと出力形式</h1>
+
+<p>エディタで/etc/httpd/sites-availale/appnameを開きます。
+<code>
+sudo vi /etc/httpd/sites-available/appname
+</code>
+- appnameは適宜変更してください。</p>
+
+<p>次の内容をRackEnvの直後に挿入してください。
+<code>
+CustomLog /var/log/httpd/appname_access.log common
+ErrorLog /var/log/httpd/appname_error.log
+</code>
+- appnameは適宜変更してください。</p>
+
+<h1 id="httpレスポンスヘッダの追加">HTTPレスポンスヘッダの追加</h1>
+
+<p>エディタで/etc/httpd/sites-availale/appnameを開きます。
+<code>
+sudo vi /etc/httpd/sites-available/appname
+</code>
+- appnameは適宜変更してください。</p>
+
+<p>下記を<VirtualHost>セクションまたは<Directory>セクションの中に記述します。
+<code>
+Header set X-Frame-Options SAMEORIGIN
+Header set X-Content-Type-Options nosniff
+Header set X-XSS-Protection &quot;1; mode-block&quot;
+</code></p>
+
+<h1 id="リクエストボディのサイズ制限">リクエストボディのサイズ制限</h1>
+
+<pre><code>LimetRequstBody 1073741824
+</code></pre>
+
+<h1 id="basic認証">Basic認証</h1>
+
+<p>パスワードファイルにguestユーザを追加
+<code>
+sudo -u appname htpasswd -c /home/appname/.htpasswd guest
+</code>
+guestユーザを削除するとき
+<code>
+sudo -u appname htpasswd -D /home/appname/.htpasswd guest
+</code></p>
+
+<p>エディタで/etc/httpd/sites-availale/appnameを開きます。
+<code>
+sudo vi /etc/httpd/sites-available/appname
+</code>
+- appnameは適宜変更してください。</p>
+
+<p><Directory>ブロックを次のように追記します
+<code>
+&lt;Directory /home/appname/rails_root/public&gt;
+  AllowOverride all
+  Options -MultiViews
+  AuthType Basic
+  AuthName &quot;Welcome to appname&quot;
+  AuthUserFile /home/appname/.htpasswd
+  Require valid-user
+&lt;/Directory&gt;
+</code></p>
+
+        </div>
+        <div class="col-lg-3 col-md-3 org-reset">
+          <ul class="org-sns">
+            <li>
+              <a href="https://github.com/t-onizawa"><i class="fa fa-github-square fa-lg fa-inverse"></i></a>
+            </li>
+            <li>
+              <a href="https://www.facebook.com/tetsuya.onizawa"><i class="fa fa-facebook-square fa-lg fa-inverse"></i></a>
+            </li>
+            <li>
+              <a href="https://twitter.com/t_onizawa"><i class="fa fa-twitter-square fa-lg fa-inverse"></i></a>
+            </li>
+          </ul>
+          <div class="org-well">
+            <h4>
+              Tags
+            </h4>
+            <ul class="list-unstyled">
+              <li>
+                <a href="/tags/html.html">HTML</a> (1)
+              </li>
+              <li>
+                <a href="/tags/基本.html">基本</a> (8)
+              </li>
+              <li>
+                <a href="/tags/タグ.html">タグ</a> (1)
+              </li>
+              <li>
+                <a href="/tags/vps.html">VPS</a> (7)
+              </li>
+              <li>
+                <a href="/tags/ruby-on-rails.html">Ruby on Rails</a> (7)
+              </li>
+              <li>
+                <a href="/tags/環境構築.html">環境構築</a> (7)
+              </li>
+              <li>
+                <a href="/tags/centos.html">CentOS</a> (6)
+              </li>
+              <li>
+                <a href="/tags/ssh.html">SSH</a> (1)
+              </li>
+              <li>
+                <a href="/tags/mysql.html">MySQL</a> (1)
+              </li>
+              <li>
+                <a href="/tags/ruby.html">Ruby</a> (4)
+              </li>
+              <li>
+                <a href="/tags/apache.html">Apache</a> (2)
+              </li>
+              <li>
+                <a href="/tags/passenger.html">Passenger</a> (1)
+              </li>
+            </ul>
+          </div>
+          <div class="org-well">
+            <h4>
+              Date
+            </h4>
+            <ol class="org-year">
+              <li>
+                <a href="/2015.html">2015年</a> (8)
+                <ol class="org-month">
+                  <li>
+                    <a href="/2015/01.html">1月</a> (8)
+                  </li>
+                </ol>
+              </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer class="org-footer org-reset">
+      <div class="container">
+        <ul>
+          <li>
+            <a href="http://alifefilm.com">A LIFE FILM</a>
+          </li>
+        </ul>
+        <p class="org-copyright">
+          <small>Copyright © t-onizawa All Rights Reserved.</small>
+        </p>
+      </div>
+    </footer><script src="../../../js/all.js" type="text/javascript"></script>
+  </body>
+</html>

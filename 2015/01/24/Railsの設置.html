@@ -1,0 +1,283 @@
+<!doctype html> 
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta content="IE=edge;chrome=1" http-equiv="X-UA-Compatible" />
+    <title>Front on Rails | 各種インストール</title>
+    <meta content="<p>Railsの設置について説明していきます。設置して各設定をを行います。環境...</p>" name="description" />
+    <meta content="Frontend, フロントエンド, Rails, Ruby, Ruby on Rails" name="keywords" />
+    <meta content="width=device-width,user-scalable=no,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0" name="viewport" />
+    <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" /><!--[if lt IE 9]><script src="../../../js/ie8.js" type="text/javascript"></script><![endif]--><link href="../../../css/all.css" media="screen" rel="stylesheet" type="text/css" /><link href="http://fonts.googleapis.com/css?family=Righteous" media="screen" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand org-logo" href="/">Front on Rails<span>FrontendとRailsのメモ</span></a>
+        </div>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-9 col-md-9">
+          <h1>
+            各種インストール
+          </h1>
+          <small class="label label-default">VPS</small>
+          <small class="label label-default">基本</small>
+          <small class="label label-default">Ruby on Rails</small>
+          <small class="label label-default">環境構築</small>
+          <small class="label label-default">CentOS</small>
+          <small class="label label-default">Ruby</small>
+          <hr />
+          <p>
+            <span class="glyphicon glyphicon-time"></span> 投稿日2015/01/24
+          </p>
+          <hr /><p>Railsの設置について説明していきます。設置して各設定をを行います。環境構築を何回かに分けて明記しています。OSはCentOSです。</p>
+
+<h1 id="ユーザを作成">ユーザを作成</h1>
+
+<p>VPSにログインしていない時はログインしてください。
+<code>
+ssh yourname@契約したIPアドレス
+</code></p>
+
+<h3 id="railsアプリーケーショ用のユーザ作成">Railsアプリーケーショ用のユーザ作成</h3>
+
+<pre><code>sudo useradd -m appname
+</code></pre>
+
+<ul>
+<li>appnameは適宜変更してください。</li>
+</ul>
+
+<p>passwordを作成
+<code>
+su 
+passwd appname
+gpasswd -a appname wheel
+su appname
+</code></p>
+
+<h3 id="パーミッションを変更します。">パーミッションを変更します。</h3>
+
+<pre><code>sudo chmod 750 /home/appname
+</code></pre>
+
+<h3 id=".sshとauthorized_keysの確認">.sshとauthorized_keysの確認</h3>
+
+<pre><code>sudo ls -d ~appname/.ssh
+sudo ls ~appname/.ssh
+</code></pre>
+
+<ul>
+<li>ないときは作成してください。</li>
+</ul>
+
+<h3 id="ssh公開鍵を追加">SSH公開鍵を追加</h3>
+
+<pre><code>sudo sh -c &quot;cat ~yourname/.ssh/authorized_keys &gt;&gt; ~appname/.ssh/authorized_keys&quot;
+</code></pre>
+
+<ul>
+<li>yourname, appnameは適宜変更してください。</li>
+</ul>
+
+<h1 id="sudoコマンド設定">sudoコマンド設定</h1>
+
+<pre><code>sudo visudo
+</code></pre>
+
+<p>下記を探します。
+<code>
+Defaults secure_path = /sbin:/bin:/usr/sbin:/usr/bin
+</code>
+修正します。
+<code>
+Defaults secure_path = /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/rbenv/shims
+</code></p>
+
+<h1 id="ソースコードの取得">ソースコードの取得</h1>
+
+<h3 id="別のターミナルを開き、アプリケーションユーザとしてログインします。">別のターミナルを開き、アプリケーションユーザとしてログインします。</h3>
+
+<pre><code>ssh appname@契約したIPアドレス
+</code></pre>
+
+<h3 id="githubからclone">GithubからClone</h3>
+
+<pre><code>git clone git://github.com/yourId/xxx.gin rails_root
+</code></pre>
+
+<ul>
+<li>ご自身のgitからクローンするように変更してください</li>
+</ul>
+
+<h1 id="依存するgemをインストール">依存するGemをインストール</h1>
+
+<h3 id="rmagickを使用している場合">RMagickを使用している場合</h3>
+
+<pre><code>sudo yum install ImageMagick-devel ImageMagick-c++-devel
+</code></pre>
+
+<h3 id="gemfile群をbundle-install">Gemfile群をbundle install</h3>
+
+<pre><code>cd ~/rails_root
+bundle install --path vendor/bundle --without development test
+</code></pre>
+
+<h1 id="データベースを作成">データベースを作成</h1>
+
+<p>下記で作成されたパスワードをコピーしておきます。
+<code>
+pwgen 12 1
+</code></p>
+
+<p>rootでMySQLモニターにログイン
+<code>
+mysql -u root -p
+</code></p>
+
+<p>下記、コマンドを実行
+<code>
+mysql&gt; CREATE DATABASE appname_production DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+mysql&gt; CREATE USER &#39;appname&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;先ほど作成したパスワード&#39;;
+mysql&gt; GRANT ALL ON appname_production.* TO &#39;appname&#39;@&#39;localhost&#39;;
+mysql&gt; quit
+</code>
+- appnameは適宜変更してください。</p>
+
+<h1 id="config/database.yml">config/database.yml</h1>
+
+<pre><code>vi config/database.yml
+</code></pre>
+
+<p>以下のように書き換えます。
+<code>
+production:
+  adapter: mysql2
+  encoding: utf8
+  reconnect: false
+  database: appname_production
+  pool: 5
+  username: appname
+  password: 先ほど作成したパスワード
+  socket: /var/lib/mysql/mysql.sock
+</code>
+- appnameは適宜変更してください。
+- development, testは削除します。</p>
+
+<h1 id="データベースに初期データを投入">データベースに初期データを投入</h1>
+
+<pre><code>cd ~/rails_root
+RAILS_ENV=production bundle exec rake db:setup
+</code></pre>
+
+<p>Deviceを使用しているとエラーが出ます。エラー時に作成されたconfig.secret_key=&#39;シークレットキー&#39;をconfig/initializers/device.rbに追記しましょう。</p>
+
+<h1 id="アセットパイプラインのプリコンパイル">アセットパイプラインのプリコンパイル</h1>
+
+<pre><code>bundle exec rake assets:precompile RAILS_ENV=production
+</code></pre>
+
+<p>エラーになる時はGemfileを編集し、
+```</p>
+
+<h1 id="gem-&#39;therubyracer&#39;,-platforms:-:ruby,-group:-:production">gem &#39;therubyracer&#39;,  platforms: :ruby, group: :production</h1>
+
+<pre><code>ここのコメント外してbundle installしましょう。
+
+public/assets以下にCSS、JavaScript、画像が作成されます。
+</code></pre>
+
+<p>ls -l public/assets
+```</p>
+
+        </div>
+        <div class="col-lg-3 col-md-3 org-reset">
+          <ul class="org-sns">
+            <li>
+              <a href="https://github.com/t-onizawa"><i class="fa fa-github-square fa-lg fa-inverse"></i></a>
+            </li>
+            <li>
+              <a href="https://www.facebook.com/tetsuya.onizawa"><i class="fa fa-facebook-square fa-lg fa-inverse"></i></a>
+            </li>
+            <li>
+              <a href="https://twitter.com/t_onizawa"><i class="fa fa-twitter-square fa-lg fa-inverse"></i></a>
+            </li>
+          </ul>
+          <div class="org-well">
+            <h4>
+              Tags
+            </h4>
+            <ul class="list-unstyled">
+              <li>
+                <a href="/tags/html.html">HTML</a> (1)
+              </li>
+              <li>
+                <a href="/tags/基本.html">基本</a> (8)
+              </li>
+              <li>
+                <a href="/tags/タグ.html">タグ</a> (1)
+              </li>
+              <li>
+                <a href="/tags/vps.html">VPS</a> (7)
+              </li>
+              <li>
+                <a href="/tags/ruby-on-rails.html">Ruby on Rails</a> (7)
+              </li>
+              <li>
+                <a href="/tags/環境構築.html">環境構築</a> (7)
+              </li>
+              <li>
+                <a href="/tags/centos.html">CentOS</a> (6)
+              </li>
+              <li>
+                <a href="/tags/ssh.html">SSH</a> (1)
+              </li>
+              <li>
+                <a href="/tags/mysql.html">MySQL</a> (1)
+              </li>
+              <li>
+                <a href="/tags/ruby.html">Ruby</a> (4)
+              </li>
+              <li>
+                <a href="/tags/apache.html">Apache</a> (2)
+              </li>
+              <li>
+                <a href="/tags/passenger.html">Passenger</a> (1)
+              </li>
+            </ul>
+          </div>
+          <div class="org-well">
+            <h4>
+              Date
+            </h4>
+            <ol class="org-year">
+              <li>
+                <a href="/2015.html">2015年</a> (8)
+                <ol class="org-month">
+                  <li>
+                    <a href="/2015/01.html">1月</a> (8)
+                  </li>
+                </ol>
+              </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer class="org-footer org-reset">
+      <div class="container">
+        <ul>
+          <li>
+            <a href="http://alifefilm.com">A LIFE FILM</a>
+          </li>
+        </ul>
+        <p class="org-copyright">
+          <small>Copyright © t-onizawa All Rights Reserved.</small>
+        </p>
+      </div>
+    </footer><script src="../../../js/all.js" type="text/javascript"></script>
+  </body>
+</html>
