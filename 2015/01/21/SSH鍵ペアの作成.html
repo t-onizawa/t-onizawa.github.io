@@ -34,16 +34,16 @@
           </p>
           <hr /><p>SSH鍵ペアの作成を説明していきます。SSH公開鍵をVPSに転送します。作成した環境構築を何回かに分けて明記しています。</p>
 
-<h1 id="ssh鍵ペアの作成">SSH鍵ペアの作成</h1>
+<h2 id="ssh鍵ペアの作成">SSH鍵ペアの作成</h2>
 
 <p>VPSに接続している場合は、ターミナルの別タブを開くか、VPSからログアウトしてください。</p>
 
-<p>鍵ペアが作業マシンに存在しているか確認します。
-<code>
-ls ~/.ssh/id_rsa*
-</code></p>
+<p>鍵ペアが作業マシンに存在しているか確認します。</p>
 
-<h3 id="存在しない場合">存在しない場合</h3>
+<pre><code>ls ~/.ssh/id_rsa*
+</code></pre>
+
+<p>存在しない場合</p>
 
 <pre><code>ssh-keygen
 </code></pre>
@@ -51,60 +51,60 @@ ls ~/.ssh/id_rsa*
 <p>鍵ペアを保存するパスを尋ねられるので、Enterキーを押してください。
 SSH秘密鍵をとくためのパスフレーズを入力して、Enterキーを押してください。</p>
 
-<h1 id="ssh公開鍵をvpsに設置">SSH公開鍵をVPSに設置</h1>
+<h2 id="ssh公開鍵をvpsに設置">SSH公開鍵をVPSに設置</h2>
 
-<p>scpコマンドでVPSに転送します。
-<code>
-scp ~/.ssh/id_rsa.pub yourname@契約したIPアドレス:
-</code></p>
+<p>scpコマンドでVPSに転送します。</p>
 
-<p>SSHで作業マシンからVPSにログインします。
-<code>
-ssh yourname@契約したIPアドレス
-</code></p>
+<pre><code>scp ~/.ssh/id_rsa.pub yourname@契約したIPアドレス:
+</code></pre>
 
-<p>下記のコマンドを順に入力
-<code>
-mkdir -p -m 700 .ssh
+<p>SSHで作業マシンからVPSにログインします。</p>
+
+<pre><code>ssh yourname@契約したIPアドレス
+</code></pre>
+
+<p>下記のコマンドを順に入力</p>
+
+<pre><code>mkdir -p -m 700 .ssh
 cat id_rsa.pub &gt;&gt; .ssh/authorized_keys
 chmod 600 .ssh/authorized_keys
 rm id_rsa.pub
-</code></p>
+</code></pre>
 
-<h1 id="sshクライアントの設定ファイル">SSHクライアントの設定ファイル</h1>
+<h2 id="sshクライアントの設定ファイル">SSHクライアントの設定ファイル</h2>
 
-<p>作業マシンに新規ファイルを作成、存在している場合は追記してください。
-<code>
-Host *
+<p>作業マシンに新規ファイルを作成、存在している場合は追記してください。</p>
+
+<pre><code>Host *
   ForwardAgent yes
   ServerAliveInterval 300
-</code></p>
+</code></pre>
 
 <h3 id="システム全体の設定ファイル">システム全体の設定ファイル</h3>
 
-<p>Macの方はエディタで<br>
-/etc/ssh/ssh<em>configを開き、
-```
-SendEnv LANG LC</em>*
-```
-をコメントアウトしてください。</p>
+<p>Macの方はエディタで/etc/ssh/ssh_configを開き、</p>
 
-<h1 id="/etc/skelディレクトリ">/etc/skelディレクトリ</h1>
+<pre><code>SendEnv LANG LC_*
+</code></pre>
+
+<p>をコメントアウトしてください。</p>
+
+<h2 id="/etc/skelディレクトリ">/etc/skelディレクトリ</h2>
 
 <p>VPSで新規ユーザを作成した時のためにauthorized_kesyを/etc/skelディレクトリにひな形を作っておきます。</p>
 
-<p>まずはVPSにSSHでログイン
-<code>
-ssh yourname@契約したIPアドレス
-</code></p>
+<p>まずはVPSにSSHでログイン</p>
 
-<p>ファイルを作成
-<code>
-cd /etc/skel
+<pre><code>ssh yourname@契約したIPアドレス
+</code></pre>
+
+<p>ファイルを作成</p>
+
+<pre><code>cd /etc/skel
 sudo mkdir -m 700 .ssh
 sudo touch .ssh/authorized_keys
 sudo chmod 600 .ssh/authorized_keys
-</code></p>
+</code></pre>
 
         </div>
         <div class="col-lg-3 col-md-3 org-reset">
@@ -132,6 +132,9 @@ sudo chmod 600 .ssh/authorized_keys
               </li>
               <li>
                 <a href="/tags/タグ.html">タグ</a> (1)
+              </li>
+              <li>
+                <a href="/tags/coder-s-high.html">coder's high</a> (1)
               </li>
               <li>
                 <a href="/tags/vps.html">VPS</a> (7)

@@ -35,45 +35,47 @@
           </p>
           <hr /><p>各種パッケージのインストールについて説明していきます。インストール、初期化を行います。環境構築を何回かに分けて明記しています。OSはCentOSです。</p>
 
-<h1 id="各種インストール">各種インストール</h1>
+<h2 id="各種インストール">各種インストール</h2>
 
-<p>SSHでログインします。
-<code>
-ssh yourname@契約したIPアドレス
-</code></p>
+<p>SSHでログインします。</p>
 
-<p>インストールします。
-<code>
-sudo yum -y install gcc gcc-c++ make autoconf openssl-devel readline-devel libyaml-devel mysql-devel wget git
-</code></p>
+<pre><code>ssh yourname@契約したIPアドレス
+</code></pre>
 
-<h1 id="rubyのビルド">Rubyのビルド</h1>
+<p>インストールします。</p>
+
+<pre><code>sudo yum -y install gcc gcc-c++ make autoconf openssl-devel readline-devel libyaml-devel mysql-devel wget git
+</code></pre>
+
+<h2 id="rubyのビルド">Rubyのビルド</h2>
 
 <h3 id="rbenvをシステムワイドにインストール">rbenvをシステムワイドにインストール</h3>
 
-<p>ユーザをrootに変更
-<code>
-su
+<p>ユーザをrootに変更</p>
+
+<pre><code>su
 cd /usr/local
-</code>
-クローン
-<code>
-git clone https://github.com/sstephenson/rbenv.git ./rbenv
-</code></p>
+</code></pre>
+
+<p>クローン</p>
+
+<pre><code>git clone https://github.com/sstephenson/rbenv.git ./rbenv
+</code></pre>
 
 <h3 id="環境設定">環境設定</h3>
 
-<p>新規ファイル
-<code>
-vi /etc/profile.d/env.sh
-</code>
-下記を記載
-<code>
-export RBENV_ROOT=&quot;/usr/local/rbenv&quot;
+<p>新規ファイル</p>
+
+<pre><code>vi /etc/profile.d/env.sh
+</code></pre>
+
+<p>下記を記載</p>
+
+<pre><code>export RBENV_ROOT=&quot;/usr/local/rbenv&quot;
 PATH=&quot;$RBENV_ROOT/bin:$PATH&quot;
 export PATH
 eval &quot;$(rbenv init -)&quot;
-</code></p>
+</code></pre>
 
 <h3 id="ruby-build-を-インストール">ruby-build を インストール</h3>
 
@@ -85,10 +87,10 @@ git clone https://github.com/sstephenson/ruby-build.git ./ruby-build
 
 <h3 id="rubyをインストール">Rubyをインストール</h3>
 
-<p>お使いのバーションをインストールしてください。
-<code>
-rbenv install -v 2.0.0-p353
-</code></p>
+<p>お使いのバーションをインストールしてください。</p>
+
+<pre><code>rbenv install -v 2.0.0-p353
+</code></pre>
 
 <h3 id="再読み込み">再読み込み</h3>
 
@@ -105,7 +107,7 @@ rbenv install -v 2.0.0-p353
 <pre><code>ruby -v
 </code></pre>
 
-<h1 id="rubygems">RubyGems</h1>
+<h2 id="rubygems">RubyGems</h2>
 
 <h3 id="更新">更新</h3>
 
@@ -128,7 +130,7 @@ update: --no-ri --no-rdoc
 ```
 -->
 
-<h1 id="bundler">Bundler</h1>
+<h2 id="bundler">Bundler</h2>
 
 <h3 id="インストール">インストール</h3>
 
@@ -166,6 +168,9 @@ update: --no-ri --no-rdoc
               </li>
               <li>
                 <a href="/tags/タグ.html">タグ</a> (1)
+              </li>
+              <li>
+                <a href="/tags/coder-s-high.html">coder's high</a> (1)
               </li>
               <li>
                 <a href="/tags/vps.html">VPS</a> (7)

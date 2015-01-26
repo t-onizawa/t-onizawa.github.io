@@ -37,88 +37,96 @@
           </p>
           <hr /><p>Apache Passengerのインストールついて説明していきます。各設定をを行います。環境構築を何回かに分けて明記しています。OSはCentOSです。</p>
 
-<h1 id="apacheのインストール">Apacheのインストール</h1>
+<h2 id="apacheのインストール">Apacheのインストール</h2>
 
-<p>sudo権限のあるユーザでログインします。
-<code>
-ssh yourname@契約したIPアドレス
-</code>
-httpd_develをインストール
-<code>
-sudo yum -y install httpd-devel
-</code>
-Apacheの自動起動を設定
-<code>
-sudo chkconfig httpd on
-</code>
-エディタで/etc/selinux/configを開きます。
-<code>
-sudo /etc/selinux/config
-</code>
-SELinux=で始まる行を次のように変更します。
-<code>
-SELinux=disable
-</code>
-CentOSを再起動します。
-<code>
-sudo service httpd restart
-</code></p>
+<p>sudo権限のあるユーザでログインします。</p>
 
-<h1 id="apacheの初期設定">Apacheの初期設定</h1>
+<pre><code>ssh yourname@契約したIPアドレス
+</code></pre>
 
-<p>以下のコマンドを実行します。
-<code>
-sudo su -
+<p>httpd_develをインストール</p>
+
+<pre><code>sudo yum -y install httpd-devel
+</code></pre>
+
+<p>Apacheの自動起動を設定</p>
+
+<pre><code>sudo chkconfig httpd on
+</code></pre>
+
+<p>エディタで/etc/selinux/configを開きます。</p>
+
+<pre><code>sudo /etc/selinux/config
+</code></pre>
+
+<p>SELinux=で始まる行を次のように変更します。</p>
+
+<pre><code>SELinux=disable
+</code></pre>
+
+<p>CentOSを再起動します。</p>
+
+<pre><code>sudo service httpd restart
+</code></pre>
+
+<h2 id="apacheの初期設定">Apacheの初期設定</h2>
+
+<p>以下のコマンドを実行します。</p>
+
+<pre><code>sudo su -
 cd /etc/httpd
 echo &quot;Include /etc/httpd/sites-enabled/&quot; &gt;&gt; conf/httpd.conf
 mkdir sites-available
 mkdir sites-enabled
 rm conf.d/welcome.conf
 exit
-</code>
-エディタで/etc/httpd/conf/httpd.confを開きます。
-<code>
-sudo vi /etc/httpd/conf/httpd.conf
-</code>
-下記の箇所のコメントを外します。
-```</p>
-
-<h1 id="servername-www.example.com:80">ServerName <a href="http://www.example.com">www.example.com:80</a></h1>
-
-<pre><code></code></pre>
-
-<h1 id="namevirtualhost-*:80">NameVirtualHost *:80</h1>
-
-<pre><code>
-# Passengerのインストール
 </code></pre>
 
-<p>gem install passenger
-<code>
-下記、コマンドを入力します。
-</code>
-sudo passenger-install-apache2-module
-```
-表示された画面に従い、Enterキーを押します。
+<p>エディタで/etc/httpd/conf/httpd.confを開きます。</p>
+
+<pre><code>sudo vi /etc/httpd/conf/httpd.conf
+</code></pre>
+
+<p>下記の箇所のコメントを外します。</p>
+
+<pre><code>#ServerName www.example.com:80
+</code></pre>
+
+<pre><code>#NameVirtualHost *:80
+</code></pre>
+
+<h2 id="passengerのインストール">Passengerのインストール</h2>
+
+<pre><code>gem install passenger
+</code></pre>
+
+<p>下記、コマンドを入力します。</p>
+
+<pre><code>sudo passenger-install-apache2-module
+</code></pre>
+
+<p>表示された画面に従い、Enterキーを押します。
 必要なファイルが表示されたら画面に従いインストールします。</p>
 
 <p>インストール後、Please edit your Apache configuration file, and add these lines:の後の3行をコピーしておきます。</p>
 
-<p>エディタで新規ファイル/etc/httpd/conf.d/passenger.confを開きます。
-<code>
-sudo vi /etc/httpd/conf.d/passenger.conf
-</code>
-このファイルに先ほどコピーした部分を貼り付けて保存します。</p>
+<p>エディタで新規ファイル/etc/httpd/conf.d/passenger.confを開きます。</p>
 
-<h1 id="デフォルトのバーチャルホストの設定">デフォルトのバーチャルホストの設定</h1>
+<pre><code>sudo vi /etc/httpd/conf.d/passenger.conf
+</code></pre>
 
-<p>エディタで新規/etc/httpd/sites-available/defaultを開きます。
-<code>
-sudo vi /etc/httpd/sites-available/default
-</code>
-下記を書き込みます。
-<code>
-&lt;VirtualHost *:80&gt;
+<p>このファイルに先ほどコピーした部分を貼り付けて保存します。</p>
+
+<h2 id="デフォルトのバーチャルホストの設定">デフォルトのバーチャルホストの設定</h2>
+
+<p>エディタで新規/etc/httpd/sites-available/defaultを開きます。</p>
+
+<pre><code>sudo vi /etc/httpd/sites-available/default
+</code></pre>
+
+<p>下記を書き込みます。</p>
+
+<pre><code>&lt;VirtualHost *:80&gt;
   DocumentRoot /var/www/html
   &lt;Directory /var/www/html&gt;
     AllowOverride all
@@ -127,23 +135,27 @@ sudo vi /etc/httpd/sites-available/default
     Deny from All
   &lt;/Directory&gt;
 &lt;/VirtualHost&gt;
-</code>
-次のコマンドを入力します。
-<code>
-sudo ln -s /etc/httpd/sites-available/default /etc/httpd/sites-enabled/000-default
-</code></p>
+</code></pre>
 
-<h1 id="バーチャルホストの追加">バーチャルホストの追加</h1>
+<p>次のコマンドを入力します。</p>
 
-<p>エディタで新規ファイル /etc/httpd/sites-available/appnameを開きます。
-<code>
-sudo vi /etc/httpd/sites-available/appname
-</code>
-- appnameは適宜変更してください。</p>
+<pre><code>sudo ln -s /etc/httpd/sites-available/default /etc/httpd/sites-enabled/000-default
+</code></pre>
 
-<p>続いて、下記を書き込みます。
-<code>
-&lt;VirtualHost *:80&gt;
+<h2 id="バーチャルホストの追加">バーチャルホストの追加</h2>
+
+<p>エディタで新規ファイル /etc/httpd/sites-available/appnameを開きます。</p>
+
+<pre><code>sudo vi /etc/httpd/sites-available/appname
+</code></pre>
+
+<ul>
+<li>appnameは適宜変更してください。</li>
+</ul>
+
+<p>続いて、下記を書き込みます。</p>
+
+<pre><code>&lt;VirtualHost *:80&gt;
   ServerName yourdomain.com
   DocumentRoot /home/appname/rails_root/public
   RackEnv production
@@ -152,16 +164,22 @@ sudo vi /etc/httpd/sites-available/appname
     Options -MultiViews
   &lt;/Directory&gt;
 &lt;/VirtualHost&gt;
-</code>
-- appname, yourdomainは適宜変更してください。</p>
+</code></pre>
 
-<p>先ほどと同じようにシンボリックを作成します。
-<code>
-sudo ln -s /etc/httpd/sites-available/appname /etc/httpd/sites-enabled/001-appname
-</code>
-- appnameは適宜変更してください。</p>
+<ul>
+<li>appname, yourdomainは適宜変更してください。</li>
+</ul>
 
-<h1 id="apacheにアクセス権付与">Apacheにアクセス権付与</h1>
+<p>先ほどと同じようにシンボリックを作成します。</p>
+
+<pre><code>sudo ln -s /etc/httpd/sites-available/appname /etc/httpd/sites-enabled/001-appname
+</code></pre>
+
+<ul>
+<li>appnameは適宜変更してください。</li>
+</ul>
+
+<h2 id="apacheにアクセス権付与">Apacheにアクセス権付与</h2>
 
 <pre><code>sudo gpasswd -a apache appname
 </code></pre>
@@ -170,11 +188,11 @@ sudo ln -s /etc/httpd/sites-available/appname /etc/httpd/sites-enabled/001-appna
 <li>appnameは適宜変更してください。</li>
 </ul>
 
-<h1 id="utwのインストール">utwのインストール</h1>
+<h2 id="utwのインストール">utwのインストール</h2>
 
-<p>下記コマンドでutwをインストールします。
-<code>
-sudo yum install wget make
+<p>下記コマンドでutwをインストールします。</p>
+
+<pre><code>sudo yum install wget make
 mkdir -p ~/src
 cd ~/src
 wget https://launchpad.net/ufw/0.33/0.33/+download/ufw-0.33.tar.gz
@@ -184,49 +202,56 @@ sudo python ./setup.py install
 cd ..
 sudo rm -rf ufw-0.33
 sudo chmod -R g-w /etc/ufw /lib/ufw /etc/default/ufw /usr/sbin/ufw
-</code>
-iptablesとip6tablesを停止し、自動起動を設定します。
-<code>
-sudo service iptables stop
+</code></pre>
+
+<p>iptablesとip6tablesを停止し、自動起動を設定します。</p>
+
+<pre><code>sudo service iptables stop
 sudo service ip6tables stop
 sudo chkconfig --del iptables
 sudo chkconfig --del ip6tables
-</code>
-エディタで/etc/rc.localを開きます。
-<code>
-sudo vi /etc/rc.local
-</code>
-下記を追加します。
-<code>
-/lib/ufw/ufw-init start
-</code></p>
+</code></pre>
+
+<p>エディタで/etc/rc.localを開きます。</p>
+
+<pre><code>sudo vi /etc/rc.local
+</code></pre>
+
+<p>下記を追加します。</p>
+
+<pre><code>/lib/ufw/ufw-init start
+</code></pre>
 
 <h1 id="ufwの初期設定">ufwの初期設定</h1>
 
-<p>外部からの通信を拒否します。
-<code>
-sudo ufw default reject
-</code>
-SSHによる接続を許可するため22番ポートを開放します。
-<code>
-sudo ufw allow 22
-</code>
-ファイアフォールを有効化します。
-<code>
-sudo ufw enable
-</code>
-メッセージにはyで答えます。</p>
+<p>外部からの通信を拒否します。</p>
 
-<h1 id="ポートの開放">ポートの開放</h1>
+<pre><code>sudo ufw default reject
+</code></pre>
 
-<p>80番を開放します。
-<code>
-sudo ufw allow 80
-</code>
-443番を開放します。
-<code>
-sudo ufw allow 443
-</code></p>
+<p>SSHによる接続を許可するため22番ポートを開放します。</p>
+
+<pre><code>sudo ufw allow 22
+</code></pre>
+
+<p>ファイアフォールを有効化します。</p>
+
+<pre><code>sudo ufw enable
+</code></pre>
+
+<p>メッセージにはyで答えます。</p>
+
+<h2 id="ポートの開放">ポートの開放</h2>
+
+<p>80番を開放します。</p>
+
+<pre><code>sudo ufw allow 80
+</code></pre>
+
+<p>443番を開放します。</p>
+
+<pre><code>sudo ufw allow 443
+</code></pre>
 
         </div>
         <div class="col-lg-3 col-md-3 org-reset">
@@ -254,6 +279,9 @@ sudo ufw allow 443
               </li>
               <li>
                 <a href="/tags/タグ.html">タグ</a> (1)
+              </li>
+              <li>
+                <a href="/tags/coder-s-high.html">coder's high</a> (1)
               </li>
               <li>
                 <a href="/tags/vps.html">VPS</a> (7)

@@ -35,14 +35,14 @@
           </p>
           <hr /><p>MySQLのインストールについて説明していきます。インストール、初期化を行います。今回はアプリケーションと同じサーバ上にインストールします。環境構築を何回かに分けて明記しています。OSはCentOSです。</p>
 
-<h1 id="インストールから初期化まで">インストールから初期化まで</h1>
+<h2 id="インストールから初期化まで">インストールから初期化まで</h2>
 
-<p>VPSにログイン
-<code>
-ssh yourname@契約したIPアドレス
-</code></p>
+<p>VPSにログイン</p>
 
-<h1 id="インストール">インストール</h1>
+<pre><code>ssh yourname@契約したIPアドレス
+</code></pre>
+
+<h2 id="インストール">インストール</h2>
 
 <pre><code>sudo rpm --import http://rpms.famillecollet.com/RPM-GPG-KEY-remi
 sudo rpm -ivh http://rpms.famillecollet.com/enterprise/remi-release-6.rpm --nodeps
@@ -50,94 +50,98 @@ sudo yum -y update
 sudo yum --enablerepo=remi -y install mysql-server mysql-devel
 </code></pre>
 
-<h1 id="初期化">初期化</h1>
+<h2 id="初期化">初期化</h2>
 
 <pre><code>sudo mysql_install_db
 </code></pre>
 
-<p>MySQLサーバーを起動し、ブート時に自動起動を設定
-<code>
-sudo service mysqld start
+<p>MySQLサーバーを起動し、ブート時に自動起動を設定</p>
+
+<pre><code>sudo service mysqld start
 sudo chkconfig mysqld on
-</code></p>
+</code></pre>
 
-<h1 id="初期設定">初期設定</h1>
+<h2 id="初期設定">初期設定</h2>
 
-<p>ランダムなパスワードを作成するpwgemのインストール
-<code>
-sudo yum -y install pwgen
-</code></p>
+<p>ランダムなパスワードを作成するpwgemのインストール</p>
 
-<p>下記でパスワードを作成し、コピーしておいてください
-<code>
-pwgen 12 1
-</code></p>
+<pre><code>sudo yum -y install pwgen
+</code></pre>
 
-<p>MySQLモニターを起動します。
-<code>
-mysql -u root
-</code></p>
+<p>下記でパスワードを作成し、コピーしておいてください</p>
 
-<p>以下のように表示されます。
-<code>
-mysql&gt;
-</code></p>
+<pre><code>pwgen 12 1
+</code></pre>
 
-<p>下記のように入力してください。
-<code>
-mysql&gt; SET PASSWORD FOR &#39;root&#39;@&#39;localhost&#39; = PASSWORD(&#39;コピーしたパスワード&#39;);
-</code></p>
+<p>MySQLモニターを起動します。</p>
 
-<p>MySQLモニターからログアウトしてください。
-<code>
-mysql&gt; quit;
-</code></p>
+<pre><code>mysql -u root
+</code></pre>
 
-<p>これでrootでMySQLモニターにログインできるようになりました。
-<code>
-mysql -u root -p
-</code>
-Enter passwordに先ほどのパスワードを入力してログインできることを確認してください。</p>
+<p>以下のように表示されます。</p>
 
-<h1 id="testデータベースを削除">testデータベースを削除</h1>
+<pre><code>mysql&gt;
+</code></pre>
 
-<p>初期状態に存在するtestデータベースを削除しておきます。
-<code>
-mysql&gt; DROP DATABASE test;
-</code></p>
+<p>下記のように入力してください。</p>
 
-<h1 id="my.cnfの変更">my.cnfの変更</h1>
+<pre><code>mysql&gt; SET PASSWORD FOR &#39;root&#39;@&#39;localhost&#39; = PASSWORD(&#39;コピーしたパスワード&#39;);
+</code></pre>
 
-<p>MySQLモニターからログアウトします。
-<code>
-mysql&gt; quit;
-</code></p>
+<p>MySQLモニターからログアウトしてください。</p>
 
-<p>my.cnfを編集します。
-<code>
-sudo vi /etc/my.conf
-</code></p>
+<pre><code>mysql&gt; quit;
+</code></pre>
 
-<p>下記を追記します。
-<code>
-bind-address=127.0.0.1
-</code></p>
+<p>これでrootでMySQLモニターにログインできるようになりました。</p>
 
-<p>パフォーマンスの設定を追記します。
-<code>
-innodb_buffer_pool_size=1024M
+<pre><code>mysql -u root -p
+</code></pre>
+
+<p>Enter passwordに先ほどのパスワードを入力してログインできることを確認してください。</p>
+
+<h2 id="testデータベースを削除">testデータベースを削除</h2>
+
+<p>初期状態に存在するtestデータベースを削除しておきます。</p>
+
+<pre><code>mysql&gt; DROP DATABASE test;
+</code></pre>
+
+<h2 id="my.cnfの変更">my.cnfの変更</h2>
+
+<p>MySQLモニターからログアウトします。</p>
+
+<pre><code>mysql&gt; quit;
+</code></pre>
+
+<p>my.cnfを編集します。</p>
+
+<pre><code>sudo vi /etc/my.conf
+</code></pre>
+
+<p>下記を追記します。</p>
+
+<pre><code>bind-address=127.0.0.1
+</code></pre>
+
+<p>パフォーマンスの設定を追記します。</p>
+
+<pre><code>innodb_buffer_pool_size=1024M
 innodb_log_file_size=256M
-</code>
-- ※innodb<em>buffer</em>pool<em>sizeにはメモリの50〜80％
-- ※innodb</em>log<em>file</em>sizeはメモリの4分の1</p>
+</code></pre>
 
-<p>my.cnfを保存し、ログファイルを削除しておきます。
-<code>
-sudo service mysqld stop
+<ul>
+<li>※innodb_buffer_pool_sizeにはメモリの50〜80％</li>
+<li>※innodb_log_file_sizeはメモリの4分の1</li>
+</ul>
+
+<p>my.cnfを保存し、ログファイルを削除しておきます。</p>
+
+<pre><code>sudo service mysqld stop
 sudo rm -f /var/lib/mysql/ib_logfile0
 sudo rm -f /var/lib/mysql/ib_logfile1
 sudo service mysqld start
-</code></p>
+</code></pre>
 
         </div>
         <div class="col-lg-3 col-md-3 org-reset">
@@ -165,6 +169,9 @@ sudo service mysqld start
               </li>
               <li>
                 <a href="/tags/タグ.html">タグ</a> (1)
+              </li>
+              <li>
+                <a href="/tags/coder-s-high.html">coder's high</a> (1)
               </li>
               <li>
                 <a href="/tags/vps.html">VPS</a> (7)
