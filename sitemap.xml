@@ -67,6 +67,12 @@
     <changefreq>daily</changefreq>
   </url>
   <url>
+    <loc>http://t-onizawa.github.io/2015/02/04/MAMPの導入.html</loc>
+    <lastmod>2015-02-04</lastmod>
+    <priority>0.7</priority>
+    <changefreq>daily</changefreq>
+  </url>
+  <url>
     <loc>http://t-onizawa.github.io/2015/02/04/Vagrantで簡単仮想環境.html</loc>
     <lastmod>2015-02-04</lastmod>
     <priority>0.7</priority>
@@ -158,6 +164,12 @@
   </url>
   <url>
     <loc>http://t-onizawa.github.io/tags/basic認証.html</loc>
+    <lastmod>2015-01-30</lastmod>
+    <priority>0.9</priority>
+    <changefreq>daily</changefreq>
+  </url>
+  <url>
+    <loc>http://t-onizawa.github.io/tags/mamp.html</loc>
     <lastmod>2015-01-30</lastmod>
     <priority>0.9</priority>
     <changefreq>daily</changefreq>
