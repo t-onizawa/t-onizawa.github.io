@@ -67,6 +67,12 @@
     <changefreq>daily</changefreq>
   </url>
   <url>
+    <loc>http://t-onizawa.github.io/2015/02/04/Vagrantで簡単仮想環境.html</loc>
+    <lastmod>2015-02-04</lastmod>
+    <priority>0.7</priority>
+    <changefreq>daily</changefreq>
+  </url>
+  <url>
     <loc>http://t-onizawa.github.io/tags/html.html</loc>
     <lastmod>2015-01-30</lastmod>
     <priority>0.9</priority>
@@ -157,6 +163,12 @@
     <changefreq>daily</changefreq>
   </url>
   <url>
+    <loc>http://t-onizawa.github.io/tags/vagrant.html</loc>
+    <lastmod>2015-01-30</lastmod>
+    <priority>0.9</priority>
+    <changefreq>daily</changefreq>
+  </url>
+  <url>
     <loc>http://t-onizawa.github.io/2015.html</loc>
     <lastmod>2015-01-30</lastmod>
     <priority>1.0</priority>
@@ -166,6 +178,12 @@
     <loc>http://t-onizawa.github.io/2015/02.html</loc>
     <lastmod>2015-01-30</lastmod>
     <priority>0.9</priority>
+    <changefreq>daily</changefreq>
+  </url>
+  <url>
+    <loc>http://t-onizawa.github.io/2015/02/04.html</loc>
+    <lastmod>2015-01-30</lastmod>
+    <priority>0.8</priority>
     <changefreq>daily</changefreq>
   </url>
   <url>
@@ -230,6 +248,18 @@
   </url>
   <url>
     <loc>http://t-onizawa.github.io/2015/01/17.html</loc>
+    <lastmod>2015-01-30</lastmod>
+    <priority>0.8</priority>
+    <changefreq>daily</changefreq>
+  </url>
+  <url>
+    <loc>http://t-onizawa.github.io/page/2/</loc>
+    <lastmod>2015-02-02</lastmod>
+    <priority>0.8</priority>
+    <changefreq>daily</changefreq>
+  </url>
+  <url>
+    <loc>http://t-onizawa.github.io/2015/page/2.html</loc>
     <lastmod>2015-01-30</lastmod>
     <priority>0.8</priority>
     <changefreq>daily</changefreq>
