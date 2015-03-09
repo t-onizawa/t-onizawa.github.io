@@ -79,6 +79,12 @@
     <changefreq>daily</changefreq>
   </url>
   <url>
+    <loc>http://t-onizawa.github.io/2015/03/09/HTMLメール、iPhoneでの日付・時間のアンカー対処法.html</loc>
+    <lastmod>2015-03-09</lastmod>
+    <priority>0.7</priority>
+    <changefreq>daily</changefreq>
+  </url>
+  <url>
     <loc>http://t-onizawa.github.io/tags/html.html</loc>
     <lastmod>2015-02-05</lastmod>
     <priority>0.9</priority>
@@ -181,9 +187,27 @@
     <changefreq>daily</changefreq>
   </url>
   <url>
+    <loc>http://t-onizawa.github.io/tags/htmlメール.html</loc>
+    <lastmod>2015-02-05</lastmod>
+    <priority>0.9</priority>
+    <changefreq>daily</changefreq>
+  </url>
+  <url>
     <loc>http://t-onizawa.github.io/2015.html</loc>
     <lastmod>2015-02-05</lastmod>
     <priority>1.0</priority>
+    <changefreq>daily</changefreq>
+  </url>
+  <url>
+    <loc>http://t-onizawa.github.io/2015/03.html</loc>
+    <lastmod>2015-02-05</lastmod>
+    <priority>0.9</priority>
+    <changefreq>daily</changefreq>
+  </url>
+  <url>
+    <loc>http://t-onizawa.github.io/2015/03/09.html</loc>
+    <lastmod>2015-02-05</lastmod>
+    <priority>0.8</priority>
     <changefreq>daily</changefreq>
   </url>
   <url>
